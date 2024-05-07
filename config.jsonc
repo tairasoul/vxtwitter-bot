@@ -1,0 +1,4 @@
+{
+    "token": "Bot your-token",
+    "provider": "vxtwitter" // can be fxtwitter or vxtwitter
+}
