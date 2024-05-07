@@ -28,9 +28,19 @@ const twitterLinkRegex = /https:\/\/(?:twitter|x)\.com\/[a-zA-Z0-9]+\/status\/[a
 bot.on("messageCreate", async (message) => {
     const link = message.content.trim().match(twitterLinkRegex);
     if (link != null) {
-        const replaced = link[0].replace(/(?:twitter|x)\.com/g, `${cfg.provider}.com`);
-        console.log(replaced);
-        await message.channel?.createMessage({content: replaced, messageReference: { messageID: message.id, guildID: message.guildID as string }});
+        if (link.length > 1) {
+            let text = '';
+            for (const twitterlink of link) {
+                const replaced = twitterlink.replace(/(?:twitter|x)\.com/g, `${cfg.provider}.com`);
+                text += replaced;
+                text += "\n";
+            }
+            await message.channel?.createMessage({content: text, messageReference: { messageID: message.id, guildID: message.guildID as string }});
+        }
+        else {
+            const replaced = link[0].replace(/(?:twitter|x)\.com/g, `${cfg.provider}.com`);
+            await message.channel?.createMessage({content: replaced, messageReference: { messageID: message.id, guildID: message.guildID as string }});
+        }
     }
 })
 
